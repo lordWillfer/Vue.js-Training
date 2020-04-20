@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Product App</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+
+        <div class="nav-bar"></div>
+
+        <div id="app">
+            <div class="product">
+                <div class="product-image">
+                    <!-- v-bind enlaza un atributo a una expresión en el archivo Javascript -->
+                    <img v-bind:src="image">
+                </div>
+
+                <div class="product-info">
+                    <h1>{{ title }}</h1>
+                    <!-- Condicional según el valor encontrado en la expresión pasada desde Javascript -->
+                    <p v-if="inStock">In Stock</p>
+                    <p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
+                    <p>{{ sale }}</p>
+                    <ul>
+                        <li v-for="detail in details">{{ detail }}</li>
+                    </ul>
+
+                    <div v-for="(variant, index) in variants" 
+                    :key="variant.variantId"
+                    class="color-box"
+                    :style="{ backgroundColor: variant.variantColor }"
+                    @mouseover="updateProduct(index)">
+                    </div>
+                    <!-- <button v-on:click="cart += 1">Add to Cart</button> -->
+                    <button v-on:click="addToCart" 
+                    :disabled="!inStock"
+                    :class="{ disabledButton: !inStock }">Add to Cart</button>
+                    <div class="cart">
+                        <p>Cart({{ cart }})</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- production version, optimized for size and speed -->
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="main.js"></script>
+    </body>
+</html>
